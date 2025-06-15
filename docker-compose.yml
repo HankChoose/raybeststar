@@ -8,6 +8,9 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./certs:/etc/letsencrypt
+      - /etc/letsencrypt/live/raybeststar.com:/etc/letsencrypt/live/raybeststar.com:ro
+      - /etc/letsencrypt/archive/raybeststar.com:/etc/letsencrypt/archive/raybeststar.com:ro
+      - /etc/letsencrypt/renewal:/etc/letsencrypt/renewal:ro
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+
     restart: always
