@@ -5,10 +5,10 @@ const App = () => {
   const [message, setMessage] = useState('');
   const [response, setResponse] = useState('');
 
-  // 只替换前缀部分
+  // Replace only the base URL part
   const FUNCTION_BASE_URL = import.meta.env.VITE_SUPABASE_FUNCTION_BASE_URL;
-  const ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;  // 从 .env 里读取
-  
+  const ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -17,7 +17,7 @@ const App = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-		  'Authorization': `Bearer ${ANON_KEY}`,
+          'Authorization': `Bearer ${ANON_KEY}`,
         },
         body: JSON.stringify({
           username: name,
@@ -27,18 +27,18 @@ const App = () => {
 
       const data = await res.json();
       if (res.ok) {
-        setResponse(data.message || '提交成功！');
+        setResponse(data.message || 'Message submitted successfully!');
       } else {
-        setResponse(data.error || '提交失败！');
+        setResponse(data.error || 'Failed to submit message.');
       }
     } catch (err) {
-      setResponse('提交失败：网络错误');
+      setResponse('Submission failed: Network error');
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6">留言板</h1>
+      <h1 className="text-3xl font-bold mb-6">Message Board</h1>
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4"
@@ -46,14 +46,14 @@ const App = () => {
         <input
           className="w-full px-4 py-2 border rounded"
           type="text"
-          placeholder="你的名字"
+          placeholder="Your Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
         />
         <textarea
           className="w-full px-4 py-2 border rounded"
-          placeholder="你的留言"
+          placeholder="Your Message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
@@ -62,7 +62,7 @@ const App = () => {
           type="submit"
           className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-400 transition-colors"
         >
-          提交
+          Submit
         </button>
       </form>
       {response && <p className="mt-4 text-green-600">{response}</p>}
