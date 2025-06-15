@@ -24,7 +24,16 @@ const App = () => {
         }),
       });
 
-      const data = await res.json();
+      let data = {};
+      try {
+        data = await res.json(); // 尝试解析 JSON
+      } catch (jsonErr) {
+        console.error('❌ Failed to parse JSON response:', jsonErr);
+        throw new Error('Invalid server response');
+      }
+
+      console.log('✅ Server response:', data);
+
       if (res.ok) {
         setResponse(`✅ Message received! Thank you, ${name}. You said: "${message}"`);
         setName('');
@@ -33,7 +42,8 @@ const App = () => {
         setResponse(data.error || '❌ Failed to submit message.');
       }
     } catch (err) {
-      setResponse('❌ Submission failed: Network error.');
+      console.error('❌ Submission error:', err);
+      setResponse('❌ Submission failed: Network or server error.');
     }
   };
 
@@ -68,7 +78,9 @@ const App = () => {
           </button>
         </form>
         {response && (
-          <p className="mt-4 text-green-600 text-center">{response}</p>
+          <p className="mt-4 text-green-600 text-center whitespace-pre-line">
+            {response}
+          </p>
         )}
       </div>
     </div>
