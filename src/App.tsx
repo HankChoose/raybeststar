@@ -32,7 +32,7 @@ const App = () => {
 
       let data: ResponseData;
       try {
-        data = await res.json(); // 只调用一次
+        data = await res.json();
       } catch (jsonErr) {
         console.error('❌ Failed to parse JSON response:', jsonErr);
         throw new Error('Invalid server response');
@@ -62,7 +62,7 @@ const App = () => {
           className="bg-white p-6 rounded shadow-md space-y-4"
         >
           <input
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-2 py-1 border rounded text-sm"
             type="text"
             placeholder="Your Name"
             value={name}
@@ -70,7 +70,7 @@ const App = () => {
             required
           />
           <textarea
-            className="w-full px-4 py-2 border rounded"
+            className="w-full px-2 py-1 border rounded text-sm"
             placeholder="Your Message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -78,7 +78,7 @@ const App = () => {
           />
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-400 transition-colors"
+            className="w-full bg-blue-600 text-white text-sm py-1 rounded hover:bg-blue-400 transition-colors"
           >
             Submit
           </button>
