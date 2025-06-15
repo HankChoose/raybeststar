@@ -5,7 +5,6 @@ const App = () => {
   const [message, setMessage] = useState('');
   const [response, setResponse] = useState('');
 
-  // Replace only the base URL part
   const FUNCTION_BASE_URL = import.meta.env.VITE_SUPABASE_FUNCTION_BASE_URL;
   const ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
@@ -27,45 +26,51 @@ const App = () => {
 
       const data = await res.json();
       if (res.ok) {
-        setResponse(data.message || 'Message submitted successfully!');
+        setResponse(`✅ Message received! Thank you, ${name}. You said: "${message}"`);
+        setName('');
+        setMessage('');
       } else {
-        setResponse(data.error || 'Failed to submit message.');
+        setResponse(data.error || '❌ Failed to submit message.');
       }
     } catch (err) {
-      setResponse('Submission failed: Network error');
+      setResponse('❌ Submission failed: Network error.');
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6">Message Board</h1>
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow-md w-full max-w-md space-y-4"
-      >
-        <input
-          className="w-full px-4 py-2 border rounded"
-          type="text"
-          placeholder="Your Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <textarea
-          className="w-full px-4 py-2 border rounded"
-          placeholder="Your Message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-400 transition-colors"
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+      <div className="w-full max-w-md">
+        <h1 className="text-3xl font-bold mb-6 text-center">Message Board</h1>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white p-6 rounded shadow-md space-y-4"
         >
-          Submit
-        </button>
-      </form>
-      {response && <p className="mt-4 text-green-600">{response}</p>}
+          <input
+            className="w-full px-4 py-2 border rounded"
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <textarea
+            className="w-full px-4 py-2 border rounded"
+            placeholder="Your Message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-400 transition-colors"
+          >
+            Submit
+          </button>
+        </form>
+        {response && (
+          <p className="mt-4 text-green-600 text-center">{response}</p>
+        )}
+      </div>
     </div>
   );
 };
