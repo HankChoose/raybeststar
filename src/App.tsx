@@ -25,15 +25,14 @@ const App = () => {
       });
 
       type ResponseData = {
-		  error?: string;
-		  message?: string;
-		  [key: string]: any;
-	  }
+        error?: string;
+        message?: string;
+        [key: string]: any;
+      }
 
-	  let data: ResponseData = {};
-	  data = await res.json();
+      let data: ResponseData;
       try {
-        data = await res.json(); // 尝试解析 JSON
+        data = await res.json(); // 只调用一次
       } catch (jsonErr) {
         console.error('❌ Failed to parse JSON response:', jsonErr);
         throw new Error('Invalid server response');
