@@ -1,13 +1,13 @@
-version: "3.8"
 services:
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: raybeststar_web
     ports:
       - "80:80"
       - "443:443"
     volumes:
       - ./certs:/etc/letsencrypt
-      - ./dist:/usr/share/nginx/html
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
     restart: always

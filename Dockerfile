@@ -1,15 +1,20 @@
+# 阶段一：构建前端
+FROM node:18-alpine as builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# 阶段二：部署到 nginx
 FROM nginx:alpine
 
-# 清空默认网站文件222
+# 删除默认 html 内容（可选）
 RUN rm -rf /usr/share/nginx/html/*
 
-# 复制前端构建产物
-COPY dist/ /usr/share/nginx/html/
-
-# 复制 nginx 配置文件（覆盖默认）
+COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
-EXPOSE 443
-
 CMD ["nginx", "-g", "daemon off;"]

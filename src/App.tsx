@@ -9,7 +9,7 @@ const App = () => {
   const FUNCTION_BASE_URL = import.meta.env.VITE_SUPABASE_FUNCTION_BASE_URL;
   const ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;  // 从 .env 里读取
   
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
