@@ -1,6 +1,6 @@
 FROM nginx:alpine
 
-# 清空默认网站文件111
+# 清空默认网站文件222
 RUN rm -rf /usr/share/nginx/html/*
 
 # 复制前端构建产物
