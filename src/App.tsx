@@ -24,7 +24,14 @@ const App = () => {
         }),
       });
 
-      let data = {};
+      type ResponseData = {
+		  error?: string;
+		  message?: string;
+		  [key: string]: any;
+	  }
+
+	  let data: ResponseData = {};
+	  data = await res.json();
       try {
         data = await res.json(); // 尝试解析 JSON
       } catch (jsonErr) {
