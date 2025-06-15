@@ -4,10 +4,10 @@ const TopBar = () => {
   return (
     <div className="bg-blue-600 text-white px-6 py-3 shadow-md w-full">
       <div className="flex justify-between items-center w-full">
-        {/* 左侧标题 */}
-        <div className="text-2xl font-bold text-white">RayBestStar</div>
+        {/* Left-side title */}
+        <div className="text-2xl font-bold text-red-400">RayBestStar</div>
 
-        {/* 右侧链接和联系方式 */}
+        {/* Right-side links and contact info */}
         <div className="flex items-center space-x-6">
           <a
             href="https://github.com/HankChoose/raybeststar"
@@ -18,7 +18,7 @@ const TopBar = () => {
             <span>Get Code from GitHub</span>
           </a>
           <a
-            href="https://github.com/HankChoose/raybeststar#architecture"
+            href="/architecture.html"
             target="_blank"
             className="flex items-center space-x-1 text-red-200 hover:underline"
           >

@@ -57,7 +57,11 @@ const MessageForm = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
       <div className="w-full max-w-md">
+	  
         <h1 className="text-3xl font-bold mb-6 text-center">Message Board</h1>
+		<div className="bg-green-200 text-green-800 p-2 text-center font-medium text-xs border border-green-400 rounded">
+		  Tailwind CSS applied successfully!
+		</div>
         <form
           onSubmit={handleSubmit}
           className="bg-white p-6 rounded shadow-md space-y-4"
@@ -71,9 +75,8 @@ const MessageForm = () => {
             required
           />
 
-          <div className="bg-red-500 text-white p-4 text-center font-bold">
-            Tailwind CSS 测试成功！
-          </div>
+		
+
 
           <textarea
             className="w-full px-2 py-1 border rounded text-sm"

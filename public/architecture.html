@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Project Architecture</title>
+<style>
+  body {
+    font-family: monospace;
+    background: #f5f5f5;
+    padding: 20px;
+  }
+  .tree {
+    white-space: pre;
+    font-size: 14px;
+    line-height: 1.4;
+    color: #333;
+    margin-bottom: 40px;
+  }
+  img.architecture-diagram {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ccc;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  }
+</style>
+</head>
+<body>
+
+<h1>Project Architecture</h1>
+
+<div class="tree">
+raybeststar/
+├── Dockerfile
+├── docker-compose.yml
+├── nginx.conf
+├── certs/
+├── dist/
+├── package.json
+├── postcss.config.cjs
+├── tailwind.config.js
+├── vite.config.js
+├── public/
+└── src/
+    ├── components/
+    │   ├── TopBar.tsx
+    │   └── MessageForm.tsx
+    ├── App.jsx
+    ├── index.css
+    └── main.jsx
+</div>
+
+<!-- 这里是引用svg图片 -->
+<img
+  src="/raybeststar.svg"
+  alt="Project Architecture Diagram"
+  class="architecture-diagram"
+/>
+
+</body>
+</html>
