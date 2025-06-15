@@ -54,6 +54,7 @@ const App = () => {
   };
 
   return (
+  
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
       <div className="w-full max-w-md">
         <h1 className="text-3xl font-bold mb-6 text-center">Message Board</h1>
@@ -69,6 +70,14 @@ const App = () => {
             onChange={(e) => setName(e.target.value)}
             required
           />
+		 
+<button
+  type="submit"
+  className="w-full bg-blue-600 !text-white !text-sm py-1 rounded hover:bg-blue-400 transition-colors duration-200"
+>
+  Submit2
+</button>
+
           <textarea
             className="w-full px-2 py-1 border rounded text-sm"
             placeholder="Your Message"
@@ -82,6 +91,9 @@ const App = () => {
           >
             Submit
           </button>
+		  
+		
+
         </form>
         {response && (
           <p className="mt-4 text-green-600 text-center whitespace-pre-line">
