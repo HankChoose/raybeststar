@@ -12,7 +12,7 @@ const TopBar = () => {
           <a
             href="https://github.com/HankChoose/raybeststar"
             target="_blank"
-            className="flex items-center space-x-1 text-red-200 hover:underline"
+            className="flex items-center space-x-1 text-red-200 hover:text-white hover:underline"
           >
             <Github size={16} />
             <span>Get Code from GitHub</span>
@@ -20,7 +20,7 @@ const TopBar = () => {
           <a
             href="/architecture.html"
             target="_blank"
-            className="flex items-center space-x-1 text-red-200 hover:underline"
+            className="flex items-center space-x-1 text-red-200 hover:text-white hover:underline"
           >
             <Network size={16} />
             <span>View Source Architecture</span>
