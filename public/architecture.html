@@ -1,36 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Project Architecture</title>
-<style>
-  body {
-    font-family: monospace;
-    background: #f5f5f5;
-    padding: 20px;
-  }
-  .tree {
-    white-space: pre;
-    font-size: 14px;
-    line-height: 1.4;
-    color: #333;
-    margin-bottom: 40px;
-  }
-  img.architecture-diagram {
-    max-width: 100%;
-    height: auto;
-    border: 1px solid #ccc;
-    background: white;
-    padding: 10px;
-    box-shadow: 0 0 6px rgba(0,0,0,0.1);
-  }
-</style>
+  <meta charset="UTF-8" />
+  <title>Project Architecture</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #f5f5f5;
+      padding: 20px;
+    }
+    h1, h2 {
+      font-family: sans-serif;
+      color: #2c3e50;
+    }
+    .tree {
+      white-space: pre;
+      font-size: 14px;
+      line-height: 1.4;
+      color: #333;
+      margin-bottom: 40px;
+    }
+    img.architecture-diagram {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+      background: white;
+      padding: 10px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+    }
+    .code-block {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 40px;
+    }
+    .code-block code {
+      white-space: pre;
+    }
+    table {
+      border-collapse: collapse;
+      font-family: monospace;
+      width: 600px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    thead {
+      background: #f0f0f0;
+    }
+    caption {
+      font-size: 1.2em;
+      font-weight: bold;
+      padding: 8px 0;
+      text-align: left;
+    }
+  </style>
 </head>
 <body>
 
-<h1>Project Architecture</h1>
+<h1  style="text-align: center;">Project Architecture</h1>
+<div style="height: 2.5em;"></div>
 
-<div class="tree">
+<h2>1. Program directory structure</h2>
+  <div class="tree">
 📁 raybeststar
 ├─ 📄 Dockerfile
 ├─ 📄 docker-compose.yml
@@ -49,16 +91,123 @@
    ├─ 📄 App.jsx
    ├─ 📄 index.css
    └─ 📄 main.jsx
+  </div>
 
 
-</div>
+  <h2>2. System Architecture Diagram</h2>
+  <img
+    src="/raybeststar.svg"
+    alt="Project Architecture Diagram"
+    class="architecture-diagram"
+  />
 
-<!-- 这里是引用svg图片 -->
-<img
-  src="/raybeststar.svg"
-  alt="Project Architecture Diagram"
-  class="architecture-diagram"
-/>
+
+  <h2>3. Edge Function on supabase.com: <code>submit-message</code></h2>
+
+  <div class="code-block">
+    <code>
+// === functions/submit-message/index.ts ===
+import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js';
+
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+};
+
+serve(async (req) => {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders
+    });
+  }
+
+  try {
+    const body = await req.json();
+    const supabase = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+    );
+
+    const { data, error } = await supabase
+      .from('messages')
+      .insert([{ username: body.username, content: body.content }])
+      .select('*');
+
+    if (error) {
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json', ...corsHeaders }
+      });
+    }
+
+    return new Response(JSON.stringify({ message: 'Message received!', data }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    });
+  }
+});
+    </code>
+  </div>
+
+  <h2>4. Supabase <code>messages</code> 表结构</h2>
+
+  <table>
+    <caption>messages 表结构</caption>
+	 <colgroup>
+		<col style="width: 50px;">
+		<col style="width: 150px;">
+		<col style="width: 150px;">
+		<col style="width: 150px;">
+		<col style="width: 160px;">
+	  </colgroup>
+    <thead>
+      <tr>
+        <th>Position</th>
+        <th>Column Name</th>
+        <th>Data Type</th>
+        <th>Is Nullable</th>
+        <th>Default Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>id</td>
+        <td>uuid</td>
+        <td>NO</td>
+        <td>gen_random_uuid()</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>created_at</td>
+        <td>timestamp with time zone</td>
+        <td>NO</td>
+        <td>now()</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>username</td>
+        <td>text</td>
+        <td>YES</td>
+        <td>null</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>content</td>
+        <td>text</td>
+        <td>YES</td>
+        <td>null</td>
+      </tr>
+    </tbody>
+  </table>
 
 </body>
 </html>

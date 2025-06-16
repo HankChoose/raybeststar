@@ -23,7 +23,7 @@ const TopBar = () => {
             className="flex items-center space-x-1 text-red-200 hover:text-white hover:underline"
           >
             <Network size={16} />
-            <span>View Source Architecture</span>
+            <span>View Program Architecture</span>
           </a>
           <div className="flex items-center space-x-1 text-white">
             <Mail size={16} />
